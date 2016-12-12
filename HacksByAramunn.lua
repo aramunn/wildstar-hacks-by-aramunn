@@ -3,6 +3,7 @@ local HacksByAramunn = {}
 function HacksByAramunn:GenHacks()
   self.tHacks = {
     {
+      Id = 201612111,
       Name = "Frame Count Deprecation",
       Description = "this is a long description blah blah blah blah blah blah blah blah blah blah blah blah",
       Load = function(ref)
@@ -14,6 +15,7 @@ function HacksByAramunn:GenHacks()
       OnFrameCount = function() Event_FireGenericEvent("VarChange_FrameCount") end,
     },
     {
+      Id = 201612112,
       Name = "Fourth Contract",
       Description = "stuff",
       Load = function(ref)
@@ -58,7 +60,7 @@ function HacksByAramunn:LoadMainWindow()
   for idx, hackData in ipairs(self.tHacks) do
     local wndHack = Apollo.LoadForm(self.xmlDoc, "Hack", wndList, self)
     wndHack:FindChild("IsEnabled"):SetData(hackData)
-    wndHack:FindChild("IsEnabled"):SetCheck(self.tSave[hackData.Name] == true)
+    wndHack:FindChild("IsEnabled"):SetCheck(hackData.IsEnabled)
     wndHack:FindChild("Name"):SetText(hackData.Name)
     wndHack:FindChild("Description"):SetText(hackData.Description)
   end
@@ -67,9 +69,8 @@ end
 
 function HacksByAramunn:OnEnableDisable(wndHandler, wndControl)
   local hackData = wndControl:GetData()
-  local hackName = hackData.Name
-  self.tSave[hackName] = wndControl:IsChecked() or nil
-  if self.tSave[hackName] then
+  hackData.IsEnabled = wndControl:IsChecked()
+  if hackData.IsEnabled then
     hackData:Load()
   else
     hackData:Unload()
@@ -79,19 +80,17 @@ end
 function HacksByAramunn:OnSave(eLevel)
   if eLevel == GameLib.CodeEnumAddonSaveLevel.Account then
     local tSave = {}
-    for hackName, hackStatus in pairs(self.tSave) do
-      if hackStatus then tSave[hackName] = true end
+    for idx, hackData in ipairs(self.tHacks) do
+      tSave[hackData.Id] = hackData.IsEnabled or nil
     end
     return tSave
   end
 end
 
 function HacksByAramunn:OnRestore(eLevel, tSave)
-  for hackName, hackStatus in pairs(tSave) do
-    self.tSave[hackName] = hackStatus or nil
-  end
   for idx, hackData in ipairs(self.tHacks) do
-    if self.tSave[hackData.Name] then hackData:Load() end
+    hackData.IsEnabled = tSave[hackData.Id]
+    if hackData.IsEnabled then hackData:Load() end
   end
 end
 
