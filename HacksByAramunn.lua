@@ -55,10 +55,10 @@ function HacksByAramunn:LoadMainWindow()
   end
   self.wndMain = Apollo.LoadForm(self.xmlDoc, "Main", nil, self)
   local wndList = self.wndMain:FindChild("List")
-  for hackName, hackData in ipairs(self.tHacks) do
+  for idx, hackData in ipairs(self.tHacks) do
     local wndHack = Apollo.LoadForm(self.xmlDoc, "Hack", wndList, self)
     wndHack:FindChild("IsEnabled"):SetData(hackData)
-    wndHack:FindChild("IsEnabled"):SetCheck(self.tSave[hackName] == true)
+    wndHack:FindChild("IsEnabled"):SetCheck(self.tSave[hackData.Name] == true)
     wndHack:FindChild("Name"):SetText(hackData.Name)
     wndHack:FindChild("Description"):SetText(hackData.Description)
   end
@@ -88,10 +88,10 @@ end
 
 function HacksByAramunn:OnRestore(eLevel, tSave)
   for hackName, hackStatus in pairs(tSave) do
-    if hackStatus and self.tHacks[hackName] then
-      self.tSave[hackName] = true
-      self.tHacks[hackName]:Load()
-    end
+    self.tSave[hackName] = hackStatus or nil
+  end
+  for idx, hackData in ipairs(self.tHacks) do
+    if self.tSave[hackData.Name] then hackData:Load() end
   end
 end
 
