@@ -1,3 +1,4 @@
 <Addon Author="Aramunn" APIVersion="14" Version="@project-version@" Name="HacksByAramunn" Description="Various hacks/fixes">
-  <Script Name="HacksByAramunn.lua"/>
+    <Script Name="HacksByAramunn.lua"/>
+    <Form Name="HacksByAramunn.xml"/>
 </Addon>
