@@ -5,7 +5,7 @@ function HacksByAramunn:GenHacks()
     {
       Id = 201612111,
       Name = "Frame Count Deprecation",
-      Description = "this is a long description blah blah blah blah blah blah blah blah blah blah blah blah",
+      Description = "Fixes addons that use the VarChange_FrameCount event",
       Load = function(ref)
         Apollo.RegisterEventHandler("FrameCount", "OnFrameCount", ref)
       end,
@@ -17,7 +17,7 @@ function HacksByAramunn:GenHacks()
     {
       Id = 201612112,
       Name = "Fourth Contract",
-      Description = "stuff",
+      Description = "Shows four contracts on the contract board",
       Load = function(ref)
         ref.addonContracts = Apollo.GetAddon("Contracts")
         if not ref.addonContracts then return end
