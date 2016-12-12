@@ -17,7 +17,7 @@ function HacksByAramunn:GenHacks()
     {
       Id = 201612112,
       Name = "Fourth Contract",
-      Description = "Shows four contracts on the contract board",
+      Description = "Allows four accepted contracts to be shown on the contract board",
       Load = function(ref)
         ref.addonContracts = Apollo.GetAddon("Contracts")
         if not ref.addonContracts then return end
