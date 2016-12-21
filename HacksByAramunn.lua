@@ -48,6 +48,52 @@ function HacksByAramunn:GenHacks()
         ref.addonContracts.OpenContracts = ref.funcOriginal
       end,
     },
+    {
+      Id = 20161217,
+      Name = "Hide Trackers in Combat",
+      Description = "Hides all but the Public Event Tracker when you're in combat (Challenge Tracker doesn't work yet)",
+      Load = function(ref)
+        Apollo.RegisterEventHandler("UnitEnteredCombat", "OnUnitEnteredCombat", ref)
+      end,
+      Unload = function(ref)
+        Apollo.RemoveEventHandler("UnitEnteredCombat", ref)
+      end,
+      tHooks = {
+        {
+          strName = "QuestTracker",
+          strBool = "bShowQuests",
+          strFunc = "OnToggleShowQuests",
+        },
+        {
+          strName = "ContractTracker",
+          strBool = "bShowContracts",
+          strFunc = "OnToggleShowContracts",
+        },
+        {
+          strName = "PathTracker",
+          strBool = "bShowPathMissions",
+          strFunc = "OnToggleShowPathMissions",
+        },
+        --WHERE IS CHALLENGETRACKER CARBINE??!!!?!??!!!
+        --TODO inspect Apollo.GetAddon("ObjectiveTracker").tAddons and call left mouse clicks that aren't public event
+      },
+      OnUnitEnteredCombat = function(ref, unit, bEnteredCombat)
+        if not unit:IsThePlayer() then return end
+        for idx, tHook in ipairs(ref.tHooks) do
+          local addon = Apollo.GetAddon(tHook.strName)
+          if addon then
+            if bEnteredCombat then
+              tHook.bWasShown = addon[tHook.strBool]
+              addon[tHook.strBool] = true
+              addon[tHook.strFunc](addon)
+            elseif tHook.bWasShown then
+              addon[tHook.strBool] = false
+              addon[tHook.strFunc](addon)
+            end
+          end
+        end
+      end,
+    },
   }
 end
 
