@@ -58,30 +58,28 @@ function HacksByAramunn:GenHacks()
       Unload = function(ref)
         Apollo.RemoveEventHandler("UnitEnteredCombat", ref)
       end,
-      tRestore = {},
+      tSave = {},
       strEventTracker = Apollo.GetString("PublicEventTracker_PublicEvents"),
       OnUnitEnteredCombat = function(ref, unit, bEnteredCombat)
         if not unit:IsThePlayer() then return end
         local addonTracker = Apollo.GetAddon("ObjectiveTracker")
         if not addonTracker then return end
         for strKey, tData in pairs(addonTracker.tAddons) do
-          local bHasMouseEvent = tData.strEventMouseLeft and true or false
-          local bIsEventTracker = tData.strAddon == strEventTracker
-          if bHasMouseEvent and not bIsEventTracker then
-            if tData.bChecked == nil then
-              Print("Blind clicking "..tData.strAddon.." ("..tostring(tData.bChecked)..")")
-              Event_FireGenericEvent(tData.strEventMouseLeft)
-            end
-            Print("Checking "..tData.strAddon.." ("..tostring(tData.bChecked)..")")
-            local bIsOnInCombat = tData.bChecked and bEnteredCombat
-            local bIsOffOutOfCombat = not tData.bChecked and not bEnteredCombat
-            if tData.bChecked and bEnteredCombat then
-              Print("Clicking "..tData.strAddon.." ("..tostring(tData.bChecked)..")")
-              Event_FireGenericEvent(tData.strEventMouseLeft)
-            end
-            Print("Finished "..tData.strAddon.." ("..tostring(tData.bChecked)..")")
-          end
+          ref:UpdateTracker(tData, bEnteredCombat)
         end
+      end,
+      UpdateTracker = function(ref, tData, bEnteredCombat)
+        if not tData.strEventMouseLeft then return end
+        if tData.strAddon == ref.strEventTracker then return end
+        if bEnteredCombat then
+          ref.tSave[tData.strAddon] = tData.bChecked
+        end
+        if ref.tSave[tData.strAddon] then
+          if bEnteredCombat ~= tData.bChecked then return end
+        else
+          if not (bEnteredCombat and tData.bChecked) then return end
+        end
+        Event_FireGenericEvent(tData.strEventMouseLeft)
       end,
     },
   }
@@ -96,7 +94,7 @@ function HacksByAramunn:LoadMainWindow()
   for idx, hackData in ipairs(self.tHacks) do
     local wndHack = Apollo.LoadForm(self.xmlDoc, "Hack", wndList, self)
     wndHack:FindChild("IsEnabled"):SetData(hackData)
-    wndHack:FindChild("IsEnabled"):SetCheck(hackData.IsEnabled)
+    wndHack:FindChild("IsEnabled"):SetCheck(hackData.bEnabled)
     wndHack:FindChild("Name"):SetText(hackData.Name)
     wndHack:FindChild("Description"):SetText(hackData.Description)
   end
@@ -105,8 +103,8 @@ end
 
 function HacksByAramunn:OnEnableDisable(wndHandler, wndControl)
   local hackData = wndControl:GetData()
-  hackData.IsEnabled = wndControl:IsChecked()
-  if hackData.IsEnabled then
+  hackData.bEnabled = wndControl:IsChecked()
+  if hackData.bEnabled then
     hackData:Load()
   else
     hackData:Unload()
@@ -114,24 +112,34 @@ function HacksByAramunn:OnEnableDisable(wndHandler, wndControl)
 end
 
 function HacksByAramunn:OnSave(eLevel)
-  if eLevel == GameLib.CodeEnumAddonSaveLevel.Account then
-    local tSave = {}
-    for idx, hackData in ipairs(self.tHacks) do
-      tSave[hackData.Id] = hackData.IsEnabled or nil
-    end
-    return tSave
+  if eLevel ~= GameLib.CodeEnumAddonSaveLevel.Account then
+    return
   end
+  local tSave = {}
+  for idx, hackData in ipairs(self.tHacks) do
+    tSave[hackData.Id] = {
+      bEnabled = hackData.bEnabled,
+      tSave = hackData.tSave or nil,
+    }
+  end
+  return tSave
 end
 
 function HacksByAramunn:OnRestore(eLevel, tSave)
   for idx, hackData in ipairs(self.tHacks) do
-    hackData.IsEnabled = tSave[hackData.Id]
-    if hackData.IsEnabled then hackData:Load() end
+    local hackSave = tSave[hackData.Id]
+    if hackSave == true then
+      hackData.bEnabled = true
+    else
+      hackData.bEnabled = hackSave and hackSave.bEnabled or false
+      hackData.tSave = hackSave and hackSave.tSave or hackData.tSave
+    end
+    if hackData.bEnabled then hackData:Load() end
   end
 end
 
 function HacksByAramunn:new(o)
-  o = o or { tSave = {} }
+  o = o or {}
   setmetatable(o, self)
   self.__index = self
   return o
@@ -144,7 +152,7 @@ end
 
 function HacksByAramunn:OnLoad()
   self.xmlDoc = XmlDoc.CreateFromFile("HacksByAramunn.xml")
-  self.xmlDoc:RegisterCallback("OnDocumentReady", self)
+  -- self.xmlDoc:RegisterCallback("OnDocumentReady", self)
   Apollo.RegisterSlashCommand("hacksbyaramunn", "LoadMainWindow", self)
   Apollo.RegisterSlashCommand("ahacks", "LoadMainWindow", self)
   Apollo.RegisterSlashCommand("ahax", "LoadMainWindow", self)
