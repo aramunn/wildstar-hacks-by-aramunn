@@ -1,1 +1,1 @@
-New in 14.0: initial release
+New in 14.1: add hide trackers in combat hack
