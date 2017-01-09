@@ -19,14 +19,14 @@ function HacksByAramunn:GenHacks()
       Name = "Fourth Contract",
       Description = "Allows four accepted contracts to be shown on the contract board",
       Load = function(ref)
-        ref.addonContracts = Apollo.GetAddon("Contracts")
-        if not ref.addonContracts then return end
-        ref.funcOriginal = ref.addonContracts.OpenContracts
-        ref.addonContracts.OpenContracts = function(...)
+        ref.addon = Apollo.GetAddon("Contracts")
+        if not ref.addon then return end
+        ref.funcOriginal = ref.addon.OpenContracts
+        ref.addon.OpenContracts = function(...)
           ref.funcOriginal(...)
           local arrContractWindows = {
-            ref.addonContracts.tWndRefs.wndPvEContracts,
-            ref.addonContracts.tWndRefs.wndPvPContracts,
+            ref.addon.tWndRefs.wndPvEContracts,
+            ref.addon.tWndRefs.wndPvPContracts,
           }
           for idx, wndContracts in ipairs(arrContractWindows) do
             local wndActiveContracts = wndContracts:FindChild("ActiveContracts")
@@ -45,7 +45,8 @@ function HacksByAramunn:GenHacks()
         end
       end,
       Unload = function(ref)
-        ref.addonContracts.OpenContracts = ref.funcOriginal
+        if not ref.addon then return end
+        ref.addon.OpenContracts = ref.funcOriginal
       end,
     },
     {
@@ -81,6 +82,43 @@ function HacksByAramunn:GenHacks()
         end
         Event_FireGenericEvent(tData.strEventMouseLeft)
       end,
+    },
+    {
+      Id = 20170108,
+      Name = "AH Go to Page",
+      Description = "Adds a way to go to a specific page in the AH search results",
+      Load = function(ref)
+        ref.addon = Apollo.GetAddon("MarketplaceAuction")
+        if not ref.addon then return end
+        ref.funcOriginal = ref.addon.OnItemAuctionSearchResults
+        ref.addon.OnItemAuctionSearchResults = function(...)
+          ref.funcOriginal(...)
+          local arrWindows = {
+            "wndMain",
+            "BuyContainer",
+            "SearchResultList",
+            "BuyPageBtnContainer",
+          }
+          local wndToModify = ref.addon
+          for idx, strWindow in ipairs(arrWindows) do
+            wndToModify = wndToModify:FindChild(strWindow)
+            if not wndToModify then return end
+          end
+          Apollo.LoadForm(self.xmlDoc, "20170108-PageGoTo", wndToModify, ref)
+        end
+      end,
+      Unload = function(ref)
+        if not ref.addon then return end
+        ref.addon.OnItemAuctionSearchResults = ref.funcOriginal
+      end,
+      OnGoTo = function(ref, wndHandler, wndControl)
+        local nMaxPage = math.floor(ref.addon.nTotalResults / MarketplaceLib.kAuctionSearchPageSize)
+        local wndPage = wndControl:GetParent():FindChild("PageNumber")
+        local nPage = tonumber(wndPage:GetText()) - 1
+        if nPage < 0 then nPage = 0 end
+        if nPage > nMaxPage then nPage = nMaxPage end
+        ref.addon.fnLastSearch(nPage)
+      end
     },
   }
 end
