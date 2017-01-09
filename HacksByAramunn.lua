@@ -93,18 +93,19 @@ function HacksByAramunn:GenHacks()
         ref.funcOriginal = ref.addon.OnItemAuctionSearchResults
         ref.addon.OnItemAuctionSearchResults = function(...)
           ref.funcOriginal(...)
+          if not ref.addon.wndMain then return end
+          local wndToModify = ref.addon.wndMain
           local arrWindows = {
-            "wndMain",
             "BuyContainer",
             "SearchResultList",
             "BuyPageBtnContainer",
           }
-          local wndToModify = ref.addon
           for idx, strWindow in ipairs(arrWindows) do
             wndToModify = wndToModify:FindChild(strWindow)
             if not wndToModify then return end
           end
-          Apollo.LoadForm(self.xmlDoc, "20170108-PageGoTo", wndToModify, ref)
+          local wndGoToPage = Apollo.LoadForm(self.xmlDoc, "20170108-PageGoTo", wndToModify, ref)
+          wndGoToPage:FindChild("PageNumber"):SetText(tostring(ref.addon.nCurPage + 1))
         end
       end,
       Unload = function(ref)
