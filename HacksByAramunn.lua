@@ -22,6 +22,12 @@ function HacksByAramunn:LoadMainWindow()
   wndList:ArrangeChildrenVert(Window.CodeEnumArrangeOrigin.LeftOrTop)
 end
 
+function HacksByAramunn:OnClose(wndHandler, wndControl)
+  if self.wndMain and self.wndMain:IsValid() then
+    self.wndMain:Destroy()
+  end
+end
+
 function HacksByAramunn:OnEnableDisable(wndHandler, wndControl)
   local hackData = wndControl:GetData()
   hackData.bEnabled = wndControl:IsChecked()
