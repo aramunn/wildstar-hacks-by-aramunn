@@ -2,10 +2,11 @@ local Hack = {
   nId = 20161217,
   strName = "Hide Trackers in Combat",
   strDescription = "Hides all but the Public Event Tracker when you're in combat",
+  strXmlDocName = nil,
+  tSave = {},
 }
 
 function Hack:Initialize()
-  self.tSave = {}
   self.strEventTracker = Apollo.GetString("PublicEventTracker_PublicEvents")
   self.addonObjectiveTracker = Apollo.GetAddon("ObjectiveTracker")
   if not self.addonObjectiveTracker then return false end

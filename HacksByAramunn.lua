@@ -71,7 +71,19 @@ function HacksByAramunn:Init()
 end
 
 function HacksByAramunn:OnLoad()
+  local tHacksTmp = self.tHacks
+  self.tHacks = {}
   self.xmlDoc = XmlDoc.CreateFromFile("HacksByAramunn.xml")
+  if not self.xmlDoc then return end
+  for idx, hackData in ipairs(tHacksTmp) do
+    local bNeedsXmlDoc = hackData.strXmlDocName ~= nil
+    if bNeedsXmlDoc then
+      hackData.xmlDoc = XmlDoc.CreateFromFile("Hacks/"..hackData.strXmlDocName)
+    end
+    if not bNeedsXmlDoc or hackData.xmlDoc then
+      table.insert(self.tHacks, hackData)
+    end
+  end
   Apollo.RegisterSlashCommand("hacksbyaramunn", "LoadMainWindow", self)
   Apollo.RegisterSlashCommand("ahacks", "LoadMainWindow", self)
   Apollo.RegisterSlashCommand("ahax", "LoadMainWindow", self)

@@ -2,6 +2,8 @@ local Hack = {
   nId = 20170108,
   strName = "AH Go to Page",
   strDescription = "Adds a way to go to a specific page in the AH search results",
+  strXmlDocName = "AhGoToPage.xml",
+  tSave = nil,
 }
 
 function Hack:Initialize()
@@ -33,9 +35,8 @@ function Hack:InsertGoToPage()
     wndToModify = wndToModify:FindChild(strWindow)
     if not wndToModify then return end
   end
-  -- local wndGoToPage = Apollo.LoadForm(self.xmlDoc, "AhGoToPage-", wndToModify, self)
-  -- wndGoToPage:FindChild("PageNumber"):SetText(tostring(self.addonMarketplaceAuction.nCurPage + 1))
-  Print("TODO: make hack unique hack xml")
+  local wndGoToPage = Apollo.LoadForm(self.xmlDoc, "GoToPage", wndToModify, self)
+  wndGoToPage:FindChild("PageNumber"):SetText(tostring(self.addonMarketplaceAuction.nCurPage + 1))
 end
 
 function Hack:OnGoTo(wndHandler, wndControl)

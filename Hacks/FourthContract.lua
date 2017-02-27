@@ -2,6 +2,8 @@ local Hack = {
   nId = 201612112,
   strName = "Fourth Contract",
   strDescription = "Allows four accepted contracts to be shown on the contract board",
+  strXmlDocName = nil,
+  tSave = nil,
 }
 
 function Hack:Initialize()

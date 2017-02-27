@@ -2,6 +2,8 @@ local Hack = {
   nId = 201612111,
   strName = "Frame Count Deprecation",
   strDescription = "Fixes addons that use the VarChange_FrameCount event",
+  strXmlDocName = nil,
+  tSave = nil,
 }
 
 function Hack:Initialize()

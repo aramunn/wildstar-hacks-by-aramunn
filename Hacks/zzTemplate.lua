@@ -2,6 +2,8 @@ local Hack = {
   nId = YYYYMMDD,
   strName = "Name_of_the_Hack",
   strDescription = "Description_of_the_Hack",
+  strXmlDocName = nil,
+  tSave = nil,
 }
 
 function Hack:Initialize()
