@@ -2,7 +2,7 @@ local Hack = {
   nId = 20170226,
   strName = "AH/CX Save Filters",
   strDescription = "Allows you to save searches/filters",
-  strXmlDocName = nil, --"AhCxSaveFilters.xml",
+  strXmlDocName = "AhCxSaveFilters.xml",
   tSave = {},
 }
 
@@ -31,17 +31,25 @@ function Hack:Load()
 end
 
 function Hack:InsertSaveFiltersAH()
-  if not self.addonMarketplaceAuction.wndMain then return end
-  local wndParent = self.addonMarketplaceAuction.wndMain:FindChild("MainCategoryContainer")
-  local wndTop = Apollo.LoadForm(self.addonMarketplaceAuction.xmlDoc, "CategoryTopItem", wndParent, self.addonMarketplaceAuction)
+  local addonAH = self.addonMarketplaceAuction
+  if not addonAH.wndMain then return end
+  local wndParent = addonAH.wndMain:FindChild("MainCategoryContainer")
+  local wndTop = Apollo.LoadForm(addonAH.xmlDoc, "CategoryTopItem", wndParent, addonAH)
   wndTop:FindChild("CategoryTopBtn"):SetData(wndTop)
-  wndTop:FindChild("CategoryTopBtn"):SetCheck(false) -- Check the first item found
-  wndTop:FindChild("CategoryTopBtn"):SetText("Test Top")
-  local wndCurr = Apollo.LoadForm(self.addonMarketplaceAuction.xmlDoc, "CategoryMidItem", wndTop:FindChild("CategoryTopList"), self.addonMarketplaceAuction)
-  wndCurr:FindChild("CategoryMidBtn"):SetText("Test Mid")
-  wndCurr:FindChild("CategoryMidBtn"):SetData({ 123, "Bot" })
+  wndTop:FindChild("CategoryTopBtn"):SetCheck(false)
+  wndTop:FindChild("CategoryTopBtn"):SetText("Saved Filters")
+  local wndSaveButton = Apollo.LoadForm(self.xmlDoc, "SaveFiltersAH", wndTop, self)
+  
+  -- local wndCurr = Apollo.LoadForm(addonAH.xmlDoc, "CategoryMidItem", wndTop:FindChild("CategoryTopList"), addonAH)
+  -- wndCurr:FindChild("CategoryMidBtn"):SetText("Test Mid")
+  -- wndCurr:FindChild("CategoryMidBtn"):SetData({ 123, "Bot" })
+  
   -- self.nSearchId = wndHandler:GetData()[1]
   -- self.strSearchEnum = wndHandler:GetData()[2]
+end
+
+function Hack:OnSaveCurrentAH(wndHandler, wndControl)
+  Print("TODO gather and save")
 end
 
 -- self.wndMain:FindChild("SearchEditBox"):SetText("")
