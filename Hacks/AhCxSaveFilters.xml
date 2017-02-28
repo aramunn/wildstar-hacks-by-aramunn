@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Forms>
+    <Form Class="Window" LAnchorPoint="1" LAnchorOffset="-90" TAnchorPoint=".5" TAnchorOffset="-15" RAnchorPoint="1" RAnchorOffset="-50" BAnchorPoint=".5" BAnchorOffset="15" RelativeToClient="1" Font="Default" Text="" BGColor="UI_WindowBGDefault" TextColor="UI_WindowTextDefault" Template="Default" TooltipType="OnCursor" Name="SaveFilters" Border="1" Picture="1" SwallowMouseClicks="1" Moveable="1" Escapable="1" Overlapped="1" TooltipColor="" Tooltip=""/>
+</Forms>

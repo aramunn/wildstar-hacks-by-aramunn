@@ -3,7 +3,7 @@ local Hack = {
   strName = "AH/CX Save Filters",
   strDescription = "Allows you to save searches/filters",
   strXmlDocName = nil, --"AhCxSaveFilters.xml",
-  tSave = nil,
+  tSave = {},
 }
 
 function Hack:Initialize()
