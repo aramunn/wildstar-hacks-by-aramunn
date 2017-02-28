@@ -49,8 +49,27 @@ function Hack:InsertSaveFiltersAH()
 end
 
 function Hack:OnSaveCurrentAH(wndHandler, wndControl)
-  Print("TODO gather and save")
+  local addonAH = self.addonMarketplaceAuction
+  local strSearchQuery = tostring(addonAH.wndMain:FindChild("SearchEditBox"):GetText())
+  local nSearchId = addonAH.nSearchId
+  local strSearchEnum = addonAH.strSearchEnum
+  local arFilters = addonAH:GetBuyFilterOptions()
+  local tSortData = addonAH.wndMain:FindChild("SortOptionsBtn"):GetData()
+  local eAuctionSort = tSortData and tSortData.eAuctionSort or MarketplaceLib.AuctionSort.TimeLeft
+  local bReverseSort = tSortData and tSortData.bReverse or false
+  local nPropertySort = tSortData and tSortData.nPropertySort or false
+  
+  Print("strSearchQuery = "..tostring(strSearchQuery))
+  Print("nSearchId = "..tostring(nSearchId))
+  Print("strSearchEnum = "..tostring(strSearchEnum))
+  Print("arFilters = "..tostring(arFilters))
+  Print("tSortData = "..tostring(tSortData))
+  Print("eAuctionSort = "..tostring(eAuctionSort))
+  Print("bReverseSort = "..tostring(bReverseSort))
+  Print("nPropertySort = "..tostring(nPropertySort))
 end
+
+function Hack:RestoreFilters()
 
 -- self.wndMain:FindChild("SearchEditBox"):SetText("")
 -- local strSearchQuery = tostring(self.wndMain:FindChild("SearchEditBox"):GetText())
@@ -72,6 +91,8 @@ end
 -- local eAuctionSort = tSortData and tSortData.eAuctionSort or MarketplaceLib.AuctionSort.TimeLeft
 -- local bReverseSort = tSortData and tSortData.bReverse or false
 -- local nPropertySort = tSortData and tSortData.nPropertySort or false
+
+end
 
 function Hack:InsertSaveFiltersCX()
 end
