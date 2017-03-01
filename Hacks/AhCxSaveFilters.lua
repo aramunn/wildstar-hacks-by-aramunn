@@ -3,7 +3,10 @@ local Hack = {
   strName = "AH/CX Save Filters",
   strDescription = "Allows you to save searches/filters",
   strXmlDocName = "AhCxSaveFilters.xml",
-  tSave = {},
+  tSave = {
+    AH = {},
+    CX = {},
+  },
 }
 
 function Hack:Initialize()
@@ -34,15 +37,17 @@ function Hack:InsertSaveFiltersAH()
   local addonAH = self.addonMarketplaceAuction
   if not addonAH.wndMain then return end
   local wndParent = addonAH.wndMain:FindChild("MainCategoryContainer")
-  local wndTop = Apollo.LoadForm(addonAH.xmlDoc, "CategoryTopItem", wndParent, addonAH)
+  local wndTop = Apollo.LoadForm(addonAH.xmlDoc, "CategoryTopItem", wndParent, self)
   wndTop:FindChild("CategoryTopBtn"):SetData(wndTop)
   wndTop:FindChild("CategoryTopBtn"):SetCheck(false)
   wndTop:FindChild("CategoryTopBtn"):SetText("Saved Filters")
   local wndSaveButton = Apollo.LoadForm(self.xmlDoc, "SaveFiltersAH", wndTop, self)
   
-  -- local wndCurr = Apollo.LoadForm(addonAH.xmlDoc, "CategoryMidItem", wndTop:FindChild("CategoryTopList"), addonAH)
-  -- wndCurr:FindChild("CategoryMidBtn"):SetText("Test Mid")
-  -- wndCurr:FindChild("CategoryMidBtn"):SetData({ 123, "Bot" })
+  for idx, tFilter in ipairs(self.tSave.AH) do
+    local wndCurr = Apollo.LoadForm(addonAH.xmlDoc, "CategoryMidItem", wndTop:FindChild("CategoryTopList"), self)
+    wndCurr:FindChild("CategoryMidBtn"):SetText(tFilter.strName)
+    wndCurr:FindChild("CategoryMidBtn"):SetData(tFilter.tData)
+  end
   
   -- self.nSearchId = wndHandler:GetData()[1]
   -- self.strSearchEnum = wndHandler:GetData()[2]
@@ -67,6 +72,66 @@ function Hack:OnSaveCurrentAH(wndHandler, wndControl)
   Print("eAuctionSort = "..tostring(eAuctionSort))
   Print("bReverseSort = "..tostring(bReverseSort))
   Print("nPropertySort = "..tostring(nPropertySort))
+  
+  table.insert(self.tSave.AH, {
+    strName = "Temp name",
+    tData = {
+      strSearchQuery = tostring(addonAH.wndMain:FindChild("SearchEditBox"):GetText()),
+      nSearchId = addonAH.nSearchId,
+      strSearchEnum = addonAH.strSearchEnum,
+      arFilters = addonAH:GetBuyFilterOptions(),
+      tSortData = addonAH.wndMain:FindChild("SortOptionsBtn"):GetData(),
+      eAuctionSort = tSortData and tSortData.eAuctionSort or MarketplaceLib.AuctionSort.TimeLeft,
+      bReverseSort = tSortData and tSortData.bReverse or false,
+      nPropertySort = tSortData and tSortData.nPropertySort or false,
+    },
+  })
+end
+
+function Hack:OnCategoryTopBtnCheck(wndHandler, wndControl) -- CategoryTopBtn
+  Print("OnCategoryTopBtnCheck")
+	-- self.wndMain:SetGlobalRadioSel("MarketplaceAuction_CategoryMidBtn_GlobalRadioGroup", -1)
+
+	-- self.nSearchId = nil
+	-- self.strSearchEnum = nil
+
+	-- local wndParent = wndHandler:GetData()
+	-- if wndHandler:IsChecked() and wndParent then
+		-- local wndAllBtn = wndParent:FindChild("CategoryTopList") and wndParent:FindChild("CategoryTopList"):FindChild("CategoryMidItem_All") or nil
+		-- if wndAllBtn then
+			-- wndAllBtn:FindChild("CategoryMidBtn"):SetCheck(true)
+
+			-- TODO Refactor these out if possible
+			-- self.nSearchId = wndAllBtn:FindChild("CategoryMidBtn"):GetData()[1]
+			-- self.strSearchEnum = wndAllBtn:FindChild("CategoryMidBtn"):GetData()[2]
+		-- end
+	-- end
+
+	-- self:OnRefreshBtn()
+	-- self:OnResizeCategories()
+end
+
+function Hack:OnCategoryTopBtnUncheck(wndHandler, wndControl) -- CategoryTopBtn
+  Print("OnCategoryTopBtnUncheck")
+	-- self.wndMain:SetGlobalRadioSel("MarketplaceAuction_CategoryMidBtn_GlobalRadioGroup", -1)
+
+	-- self.nSearchId = nil
+	-- self.strSearchEnum = nil
+
+	-- self:OnResizeCategories()
+end
+
+function Hack:OnCategoryMidBtnCheck(wndHandler, wndControl)
+  Print("OnCategoryMidBtnCheck")
+
+	-- TODO refactor these variables
+	-- self.nSearchId = wndHandler:GetData()[1]
+	-- self.strSearchEnum = wndHandler:GetData()[2]
+	-- self:OnRefreshBtn()
+end
+
+function Hack:OnCategoryMidBtnUncheck(wndHandler, wndControl)
+  Print("OnCategoryMidBtnUncheck")
 end
 
 function Hack:RestoreFilters()
