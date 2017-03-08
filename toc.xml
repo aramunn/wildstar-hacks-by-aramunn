@@ -8,4 +8,5 @@
     <Form Name="Hacks\AhGoToPage.xml"/>
     <Script Name="Hacks\AhCxSaveFilters.lua"/>
     <Form Name="Hacks\AhCxSaveFilters.xml"/>
+    <Script Name="Hacks\HidePlayerUnitFrameInGroup.lua"/>
 </Addon>
