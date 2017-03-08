@@ -6,7 +6,7 @@
     <Script Name="Hacks\HideTrackersInCombat.lua"/>
     <Script Name="Hacks\AhGoToPage.lua"/>
     <Form Name="Hacks\AhGoToPage.xml"/>
+    <Script Name="Hacks\HidePlayerUnitFrameInGroup.lua"/>
     <Script Name="Hacks\AhCxSaveFilters.lua"/>
     <Form Name="Hacks\AhCxSaveFilters.xml"/>
-    <Script Name="Hacks\HidePlayerUnitFrameInGroup.lua"/>
 </Addon>
