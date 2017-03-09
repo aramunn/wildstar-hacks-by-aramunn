@@ -60,7 +60,6 @@ function Hack:new(o)
 end
 
 function Hack:Register()
-  if not self:Initialize() then return end
   local addonMain = Apollo.GetAddon("HacksByAramunn")
   addonMain:RegisterHack(self)
 end
