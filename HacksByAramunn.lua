@@ -77,22 +77,31 @@ function HacksByAramunn:Init()
 end
 
 function HacksByAramunn:OnLoad()
+  self.xmlDoc = XmlDoc.CreateFromFile("HacksByAramunn.xml")
+  self.xmlDoc:RegisterCallback("OnDocumentReady", self)
+end
+
+function HacksByAramunn:OnDocumentReady()
+  if not self.xmlDoc then return end
+  if not self.xmlDoc:IsLoaded() then return end
   local tHacksTmp = self.tHacks
   self.tHacks = {}
-  self.xmlDoc = XmlDoc.CreateFromFile("HacksByAramunn.xml")
-  if not self.xmlDoc then return end
   for idx, hackData in ipairs(tHacksTmp) do
-    local bNeedsXmlDoc = hackData.strXmlDocName ~= nil
-    if bNeedsXmlDoc then
-      hackData.xmlDoc = XmlDoc.CreateFromFile("Hacks/"..hackData.strXmlDocName)
-    end
-    if not bNeedsXmlDoc or hackData.xmlDoc then
-      table.insert(self.tHacks, hackData)
-    end
+    self:InitializeHack(hackData)
   end
   Apollo.RegisterSlashCommand("hacksbyaramunn", "LoadMainWindow", self)
   Apollo.RegisterSlashCommand("ahacks", "LoadMainWindow", self)
   Apollo.RegisterSlashCommand("ahax", "LoadMainWindow", self)
+end
+
+function HacksByAramunn:InitializeHack(hackData)
+  if not hackData:Initialize() then return end
+  local bNeedsXmlDoc = hackData.strXmlDocName ~= nil
+  if bNeedsXmlDoc then
+    hackData.xmlDoc = XmlDoc.CreateFromFile("Hacks/"..hackData.strXmlDocName)
+  end
+  if bNeedsXmlDoc and not hackData.xmlDoc then return end
+  table.insert(self.tHacks, hackData)
 end
 
 local HacksByAramunnInst = HacksByAramunn:new()

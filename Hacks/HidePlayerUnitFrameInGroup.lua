@@ -8,8 +8,10 @@ local Hack = {
 
 function Hack:Initialize()
   self.addonTargetFrame = Apollo.GetAddon("TargetFrame")
-  if not self.addonTargetFrame then return false end
-  return true
+  if self.addonTargetFrame then return true end
+  self.addonPotatoFrames = Apollo.GetAddon("PotatoFrames")
+  if self.addonPotatoFrames then return true end
+  return false
 end
 
 function Hack:Load()
@@ -17,16 +19,27 @@ function Hack:Load()
     Apollo.RegisterEventHandler("Group_Join", "OnGroupJoin", self)
     Apollo.RegisterEventHandler("Group_Left", "OnGroupLeft", self)
     self.bIsLoaded = true
+    if GroupLib.InGroup() then self:OnGroupJoin() end
   end
 end
 
 function Hack:OnGroupJoin()
-  local wndFrame = self.addonTargetFrame.luaUnitFrame.wndMainClusterFrame
-  if wndFrame then wndFrame:Destroy() end
+  if self.addonTargetFrame then
+    local wndFrame = self.addonTargetFrame.luaUnitFrame.wndMainClusterFrame
+    if wndFrame then wndFrame:Destroy() end
+  end
+  if self.addonPotatoFrames then
+    self.addonPotatoFrames.tFrames[1].frameData.showFrame = 0
+  end
 end
 
 function Hack:OnGroupLeft()
-  self.addonTargetFrame:OnUnitFrameOptionsUpdated()
+  if self.addonTargetFrame then
+    self.addonTargetFrame:OnUnitFrameOptionsUpdated()
+  end
+  if self.addonPotatoFrames then
+    self.addonPotatoFrames.tFrames[1].frameData.showFrame = 1
+  end
 end
 
 function Hack:Unload()
@@ -45,7 +58,6 @@ function Hack:new(o)
 end
 
 function Hack:Register()
-  if not self:Initialize() then return end
   local addonMain = Apollo.GetAddon("HacksByAramunn")
   addonMain:RegisterHack(self)
 end
