@@ -13,14 +13,26 @@ function Hack:Initialize()
 end
 
 function Hack:Load()
-  Apollo.RegisterSlashCommand("testhack", "TestHack", self)
+  Apollo.RegisterEventHandler("ChannelUpdate_Loot", "OnChannelUpdate_Loot", self)
 end
 
-function Hack:TestHack()
-  -- for idx, tReward in ipairs(GameLib.GetRewardRotations()) do
-    -- table.insert(self.tRewards, tReward)
-    -- tReward.nRewardType == GameLib.CodeEnumRewardRotationRewardType.Essence and tReward.nMultiplier < 2
-  -- end
+function Hack:OnChannelUpdate_Loot(eType, tEventArgs)
+  if eType == GameLib.ChannelUpdateLootType.Currency then
+    local eType = tEventArgs.monNew:GetMoneyType()
+    local bIsEssence = false
+    bIsEssence = bIsEssence or eType == Money.CodeEnumCurrencyType.RedEssence
+    bIsEssence = bIsEssence or eType == Money.CodeEnumCurrencyType.BlueEssence
+    bIsEssence = bIsEssence or eType == Money.CodeEnumCurrencyType.GreenEssence
+    bIsEssence = bIsEssence or eType == Money.CodeEnumCurrencyType.PurpleEssence
+    if bIsEssence then
+      local strType = "blah"
+      strType = eType == Money.CodeEnumCurrencyType.RedEssence and "Red" or strType
+      strType = eType == Money.CodeEnumCurrencyType.BlueEssence and "Blue" or strType
+      strType = eType == Money.CodeEnumCurrencyType.GreenEssence and "Green" or strType
+      strType = eType == Money.CodeEnumCurrencyType.PurpleEssence and "Purple" or strType
+      Print(strType..": "..tostring(tEventArgs.monNew:GetAmount()).." (+"..tostring(tEventArgs.monSignatureBonus:GetAmount())..") [x"..tostring(tEventArgs.monEssenceBonus:GetAmount()).."]")
+    end
+  end
 end
 
 function Hack:Unload()

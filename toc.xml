@@ -8,4 +8,5 @@
     <Form Name="Hacks\AhGoToPage.xml"/>
     <Script Name="Hacks\HidePlayerUnitFrameInGroup.lua"/>
     <Script Name="Hacks\TrackCompletedBonusRewards.lua"/>
+    <Form Name="Hacks\TrackCompletedBonusRewards.xml"/>
 </Addon>
