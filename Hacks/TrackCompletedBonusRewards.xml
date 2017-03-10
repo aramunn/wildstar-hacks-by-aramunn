@@ -4,8 +4,9 @@
         <Control Class="Window" LAnchorPoint="0" LAnchorOffset="0" TAnchorPoint="0" TAnchorOffset="0" RAnchorPoint="1" RAnchorOffset="0" BAnchorPoint="1" BAnchorOffset="0" RelativeToClient="1" Font="Default" Text="" BGColor="UI_WindowBGDefault" TextColor="UI_WindowTextDefault" Template="Default" TooltipType="OnCursor" Name="Shader" TooltipColor="">
             <Pixie LAnchorPoint="0" LAnchorOffset="0" TAnchorPoint="0" TAnchorOffset="0" RAnchorPoint="1" RAnchorOffset="0" BAnchorPoint="1" BAnchorOffset="0" Sprite="WhiteFill" BGColor="88444444" TextColor="black" Rotation="0" Font="Default"/>
         </Control>
-        <Control Class="Button" Base="BK3:btnHolo_Check" Font="DefaultButton" ButtonType="PushButton" RadioGroup="" LAnchorPoint="1" LAnchorOffset="-407" TAnchorPoint=".5" TAnchorOffset="-13" RAnchorPoint="1" RAnchorOffset="-240" BAnchorPoint=".5" BAnchorOffset="13" DT_VCENTER="1" DT_CENTER="1" BGColor="UI_BtnBGDefault" TextColor="UI_BtnTextDefault" NormalTextColor="UI_BtnTextDefault" PressedTextColor="UI_BtnTextDefault" FlybyTextColor="UI_BtnTextDefault" PressedFlybyTextColor="UI_BtnTextDefault" DisabledTextColor="UI_BtnTextDefault" TooltipType="OnCursor" Name="Completed" TooltipColor="" FocusedTextColor="ffffffff" Text="" TextId="QuestCompleted" DrawAsCheckbox="1" CheckboxRight="1" DT_RIGHT="0" NewWindowDepth="1">
-            <Event Name="ButtonSignal" Function="OnCompleted"/>
+        <Control Class="Button" Base="BK3:btnHolo_Check" Font="DefaultButton" ButtonType="Check" RadioGroup="" LAnchorPoint="1" LAnchorOffset="-376" TAnchorPoint=".5" TAnchorOffset="-13" RAnchorPoint="1" RAnchorOffset="-263" BAnchorPoint=".5" BAnchorOffset="13" DT_VCENTER="1" DT_CENTER="1" BGColor="UI_BtnBGDefault" TextColor="UI_BtnTextDefault" NormalTextColor="UI_BtnTextDefault" PressedTextColor="UI_BtnTextDefault" FlybyTextColor="UI_BtnTextDefault" PressedFlybyTextColor="UI_BtnTextDefault" DisabledTextColor="UI_BtnTextDefault" TooltipType="OnCursor" Name="Completed" TooltipColor="" FocusedTextColor="ffffffff" Text="" TextId="QuestCompleted" DrawAsCheckbox="1" CheckboxRight="1" DT_RIGHT="0" NewWindowDepth="1" Tooltip="">
+            <Event Name="ButtonCheck" Function="OnCompletedCheck"/>
+            <Event Name="ButtonUncheck" Function="OnCompletedUncheck"/>
         </Control>
     </Form>
 </Forms>
