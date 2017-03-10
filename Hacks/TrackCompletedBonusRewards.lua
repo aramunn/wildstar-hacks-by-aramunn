@@ -2,18 +2,40 @@ local Hack = {
   nId = 20170308,
   strName = "Track Completed Bonus Rewards",
   strDescription = "TODO",
-  strXmlDocName = nil,
+  strXmlDocName = "TrackCompletedBonusRewards.xml",
   tSave = {},
 }
 
 function Hack:Initialize()
   self.addonMatchMaker = Apollo.GetAddon("MatchMaker")
   if not self.addonMatchMaker then return false end
+  local funcOriginal = self.addonMatchMaker.BuildFeaturedList
+  self.addonMatchMaker.BuildFeaturedList = function(...)
+    funcOriginal(...)
+    if self.bIsLoaded then
+      self:PlaceOverlay()
+    end
+  end
   return true
 end
 
 function Hack:Load()
-  Apollo.RegisterEventHandler("ChannelUpdate_Loot", "OnChannelUpdate_Loot", self)
+  self.bIsLoaded = true
+  -- Apollo.RegisterEventHandler("ChannelUpdate_Loot", "OnChannelUpdate_Loot", self)
+end
+
+function Hack:PlaceOverlay()
+  local wndList = self.addonMatchMaker.tWndRefs.wndMain:FindChild("TabContent:RewardContent")
+  for idx, wndReward in ipairs(wndList:GetChildren()) do
+    local tRewardListEntry = wndReward:FindChild("InfoButton"):GetData()
+    local wndOverlay = Apollo.LoadForm(self.xmlDoc, "Overlay", wndReward, self)
+    if idx%2 == 0 then wndOverlay:FindChild("Shader"):Show(false) end
+    -- Print(tostring(tRewardListEntry.strContentName))
+  end
+end
+
+function Hack:OnCompleted(wndHandler, wndControl)
+  Print("here")
 end
 
 function Hack:OnChannelUpdate_Loot(eType, tEventArgs)
@@ -36,6 +58,7 @@ function Hack:OnChannelUpdate_Loot(eType, tEventArgs)
 end
 
 function Hack:Unload()
+  self.bIsLoaded = false
 end
 
 function Hack:new(o)
