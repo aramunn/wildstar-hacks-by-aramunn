@@ -34,6 +34,7 @@ function Hack:OnGroupJoin()
 end
 
 function Hack:OnGroupLeft()
+  if GroupLib.InGroup() then return end
   if self.addonTargetFrame then
     self.addonTargetFrame:OnUnitFrameOptionsUpdated()
   end
