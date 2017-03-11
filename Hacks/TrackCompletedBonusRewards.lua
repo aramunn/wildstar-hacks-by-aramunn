@@ -21,7 +21,7 @@ end
 
 function Hack:Load()
   self.bIsLoaded = true
-  -- Apollo.RegisterEventHandler("ChannelUpdate_Loot", "OnChannelUpdate_Loot", self)
+  Apollo.RegisterEventHandler("ChannelUpdate_Loot", "OnChannelUpdate_Loot", self)
 end
 
 function Hack:PlaceOverlays()
@@ -96,20 +96,22 @@ function Hack:OnChannelUpdate_Loot(eType, tEventArgs)
     bIsEssence = bIsEssence or eType == Money.CodeEnumCurrencyType.BlueEssence
     bIsEssence = bIsEssence or eType == Money.CodeEnumCurrencyType.GreenEssence
     bIsEssence = bIsEssence or eType == Money.CodeEnumCurrencyType.PurpleEssence
+    bIsEssence = bIsEssence or eType == Money.CodeEnumCurrencyType.GroupCurrency
     if bIsEssence then
       local strType = "blah"
       strType = eType == Money.CodeEnumCurrencyType.RedEssence and "Red" or strType
       strType = eType == Money.CodeEnumCurrencyType.BlueEssence and "Blue" or strType
       strType = eType == Money.CodeEnumCurrencyType.GreenEssence and "Green" or strType
       strType = eType == Money.CodeEnumCurrencyType.PurpleEssence and "Purple" or strType
-      -- Print(strType..": "..tostring(tEventArgs.monNew:GetAmount()).." (+"..tostring(tEventArgs.monSignatureBonus:GetAmount())..") [x"..tostring(tEventArgs.monEssenceBonus:GetAmount()).."]")
+      strType = eType == Money.CodeEnumCurrencyType.GroupCurrency and "Group" or strType
+      Print(strType..": "..tostring(tEventArgs.monNew:GetAmount()).." (+"..tostring(tEventArgs.monSignatureBonus:GetAmount())..") [x"..tostring(tEventArgs.monEssenceBonus:GetAmount()).."] {"..tostring(tEventArgs.monEssenceBonus:GetAltType()).."}")
     end
   end
 end
 
 function Hack:Unload()
+  Apollo.RemoveEventHandler("ChannelUpdate_Loot", self)
   self.bIsLoaded = false
-  -- Apollo.RemoveEventHandler("ChannelUpdate_Loot", self)
 end
 
 function Hack:new(o)
