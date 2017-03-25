@@ -2,7 +2,12 @@ local HacksByAramunn = {
   tHacks = {},
 }
 
+function HacksByAramunn:RegisterUtil(util)
+  self.util = util
+end
+
 function HacksByAramunn:RegisterHack(hackData)
+  hackData.util = self.util
   table.insert(self.tHacks, hackData)
 end
 

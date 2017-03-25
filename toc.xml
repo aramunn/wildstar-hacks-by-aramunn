@@ -1,6 +1,7 @@
 <Addon Author="Aramunn" APIVersion="14" Version="@project-version@" Name="HacksByAramunn" Description="Various hacks/fixes">
     <Script Name="HacksByAramunn.lua"/>
     <Form Name="HacksByAramunn.xml"/>
+    <Script Name="Util.lua"/>
     <Script Name="Hacks\FrameCountDeprecation.lua"/>
     <Script Name="Hacks\FourthContract.lua"/>
     <Script Name="Hacks\HideTrackersInCombat.lua"/>
