@@ -15,12 +15,9 @@ function Hack:Initialize()
 end
 
 function Hack:Load()
-  if not self.bIsLoaded then
-    Apollo.RegisterEventHandler("Group_Join", "OnGroupJoin", self)
-    Apollo.RegisterEventHandler("Group_Left", "OnGroupLeft", self)
-    self.bIsLoaded = true
-    if GroupLib.InGroup() then self:OnGroupJoin() end
-  end
+  Apollo.RegisterEventHandler("Group_Join", "OnGroupJoin", self)
+  Apollo.RegisterEventHandler("Group_Left", "OnGroupLeft", self)
+  if GroupLib.InGroup() then self:OnGroupJoin() end
 end
 
 function Hack:OnGroupJoin()
@@ -44,11 +41,8 @@ function Hack:OnGroupLeft()
 end
 
 function Hack:Unload()
-  if self.bIsLoaded then
-    Apollo.RemoveEventHandler("Group_Join", self)
-    Apollo.RemoveEventHandler("Group_Left", self)
-    self.bIsLoaded = false
-  end
+  Apollo.RemoveEventHandler("Group_Join", self)
+  Apollo.RemoveEventHandler("Group_Left", self)
 end
 
 function Hack:new(o)

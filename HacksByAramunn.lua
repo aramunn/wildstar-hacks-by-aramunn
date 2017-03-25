@@ -32,9 +32,15 @@ function HacksByAramunn:OnEnableDisable(wndHandler, wndControl)
   local hackData = wndControl:GetData()
   hackData.bEnabled = wndControl:IsChecked()
   if hackData.bEnabled then
-    hackData:Load()
+    if not hackData.bIsLoaded then
+      hackData:Load()
+      hackData.bIsLoaded = true
+    end
   else
-    hackData:Unload()
+    if hackData.bIsLoaded then
+      hackData:Unload()
+      hackData.bIsLoaded = false
+    end
   end
 end
 

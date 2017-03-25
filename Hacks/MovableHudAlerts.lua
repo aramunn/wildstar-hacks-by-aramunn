@@ -15,11 +15,8 @@ function Hack:Initialize()
 end
 
 function Hack:Load()
-  if not self.bIsLoaded then
-    Apollo.RegisterEventHandler("WindowManagementReady", "OnWindowManagementReady", self)
-    Apollo.RegisterEventHandler("WindowManagementUpdate", "OnWindowManagementUpdate", self)
-    self.bIsLoaded = true
-  end
+  Apollo.RegisterEventHandler("WindowManagementReady", "OnWindowManagementReady", self)
+  Apollo.RegisterEventHandler("WindowManagementUpdate", "OnWindowManagementUpdate", self)
   self:OnWindowManagementReady()
 end
 
@@ -46,11 +43,8 @@ function Hack:OnWindowManagementUpdate(tSettings)
 end
 
 function Hack:Unload()
-  if self.bIsLoaded then
-    Apollo.RemoveEventHandler("WindowManagementReady", self)
-    Apollo.RemoveEventHandler("WindowManagementUpdate", self)
-    self.bIsLoaded = false
-  end
+  Apollo.RemoveEventHandler("WindowManagementReady", self)
+  Apollo.RemoveEventHandler("WindowManagementUpdate", self)
 end
 
 function Hack:new(o)
