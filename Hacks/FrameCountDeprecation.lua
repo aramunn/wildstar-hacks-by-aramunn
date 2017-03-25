@@ -11,10 +11,7 @@ function Hack:Initialize()
 end
 
 function Hack:Load()
-  if not self.bIsLoaded then
-    Apollo.RegisterEventHandler("FrameCount", "OnFrameCount", self)
-    self.bIsLoaded = true
-  end
+  Apollo.RegisterEventHandler("FrameCount", "OnFrameCount", self)
 end
 
 function Hack:OnFrameCount()
@@ -22,10 +19,7 @@ function Hack:OnFrameCount()
 end
 
 function Hack:Unload()
-  if self.bIsLoaded then
-    Apollo.RemoveEventHandler("FrameCount", self)
-    self.bIsLoaded = false
-  end
+  Apollo.RemoveEventHandler("FrameCount", self)
 end
 
 function Hack:new(o)

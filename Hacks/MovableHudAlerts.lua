@@ -6,7 +6,8 @@ local Hack = {
   tSave = nil,
 }
 
-local kstrWindowManagementName = "HUD Alerts (HbA)"
+local kstrWndMgmtName = "HUD Alerts (HbA)"
+local knWndMgmtSaveVersion = 1
 
 function Hack:Initialize()
   self.addonHUDAlerts = Apollo.GetAddon("HUDAlerts")
@@ -15,23 +16,20 @@ function Hack:Initialize()
 end
 
 function Hack:Load()
-  if not self.bIsLoaded then
-    Apollo.RegisterEventHandler("WindowManagementReady", "OnWindowManagementReady", self)
-    Apollo.RegisterEventHandler("WindowManagementUpdate", "OnWindowManagementUpdate", self)
-    self.bIsLoaded = true
-  end
+  Apollo.RegisterEventHandler("WindowManagementReady", "OnWindowManagementReady", self)
+  Apollo.RegisterEventHandler("WindowManagementUpdate", "OnWindowManagementUpdate", self)
   self:OnWindowManagementReady()
 end
 
 function Hack:OnWindowManagementReady()
   Event_FireGenericEvent("WindowManagementRegister", {
-    strName = kstrWindowManagementName,
-    nSaveVersion = 1
+    strName = kstrWndMgmtName,
+    nSaveVersion = knWndMgmtSaveVersion,
   })
   Event_FireGenericEvent("WindowManagementAdd", {
     wnd = self.addonHUDAlerts.wndAlertContainer,
-    strName = kstrWindowManagementName,
-    nSaveVersion = 1
+    strName = kstrWndMgmtName,
+    nSaveVersion = knWndMgmtSaveVersion,
   })
 end
 
@@ -46,11 +44,12 @@ function Hack:OnWindowManagementUpdate(tSettings)
 end
 
 function Hack:Unload()
-  if self.bIsLoaded then
-    Apollo.RemoveEventHandler("WindowManagementReady", self)
-    Apollo.RemoveEventHandler("WindowManagementUpdate", self)
-    self.bIsLoaded = false
-  end
+  Apollo.RemoveEventHandler("WindowManagementReady", self)
+  Apollo.RemoveEventHandler("WindowManagementUpdate", self)
+  Event_FireGenericEvent("WindowManagementRemove", {
+    strName = kstrWndMgmtName,
+    nSaveVersion = knWndMgmtSaveVersion,
+  })
 end
 
 function Hack:new(o)

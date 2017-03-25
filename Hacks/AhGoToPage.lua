@@ -20,7 +20,6 @@ function Hack:Initialize()
 end
 
 function Hack:Load()
-  self.bIsLoaded = true
 end
 
 function Hack:InsertGoToPage()
@@ -49,7 +48,6 @@ function Hack:OnGoTo(wndHandler, wndControl)
 end
 
 function Hack:Unload()
-  self.bIsLoaded = false
 end
 
 function Hack:new(o)

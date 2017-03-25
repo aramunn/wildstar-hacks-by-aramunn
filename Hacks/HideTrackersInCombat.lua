@@ -14,10 +14,7 @@ function Hack:Initialize()
 end
 
 function Hack:Load()
-  if not self.bIsLoaded then
-    Apollo.RegisterEventHandler("UnitEnteredCombat", "OnUnitEnteredCombat", self)
-    self.bIsLoaded = true
-  end
+  Apollo.RegisterEventHandler("UnitEnteredCombat", "OnUnitEnteredCombat", self)
 end
 
 function Hack:OnUnitEnteredCombat(unit, bEnteredCombat)
@@ -42,10 +39,7 @@ function Hack:UpdateTracker(tData, bEnteredCombat)
 end
 
 function Hack:Unload()
-  if self.bIsLoaded then
-    Apollo.RemoveEventHandler("UnitEnteredCombat", self)
-    self.bIsLoaded = false
-  end
+  Apollo.RemoveEventHandler("UnitEnteredCombat", self)
 end
 
 function Hack:new(o)

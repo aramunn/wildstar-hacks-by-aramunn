@@ -20,7 +20,6 @@ function Hack:Initialize()
 end
 
 function Hack:Load()
-  self.bIsLoaded = true
 end
 
 function Hack:ShowFourthContract()
@@ -45,7 +44,6 @@ function Hack:ShowFourthContract()
 end
 
 function Hack:Unload()
-  self.bIsLoaded = false
 end
 
 function Hack:new(o)
