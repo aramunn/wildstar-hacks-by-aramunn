@@ -9,4 +9,5 @@
     <Form Name="Hacks\AhGoToPage.xml"/>
     <Script Name="Hacks\HidePlayerUnitFrameInGroup.lua"/>
     <Script Name="Hacks\MovableHudAlerts.lua"/>
+    <Script Name="Hacks\PartyRoll.lua"/>
 </Addon>
