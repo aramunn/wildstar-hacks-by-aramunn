@@ -1,10 +1,12 @@
 local Hack = {
   nId = 20170323,
   strName = "Movable HUD Alerts",
-  strDescription = "TODO",
+  strDescription = "Allows the HUD Alerts (E.g. Vacuum Loot) to be movable via Interface Options",
   strXmlDocName = nil,
   tSave = nil,
 }
+
+local kstrWindowManagementName = "HUD Alerts (HbA)"
 
 function Hack:Initialize()
   self.addonHUDAlerts = Apollo.GetAddon("HUDAlerts")
@@ -23,12 +25,12 @@ end
 
 function Hack:OnWindowManagementReady()
   Event_FireGenericEvent("WindowManagementRegister", {
-    strName = "HbA: HUD Alerts",
+    strName = kstrWindowManagementName,
     nSaveVersion = 1
   })
   Event_FireGenericEvent("WindowManagementAdd", {
     wnd = self.addonHUDAlerts.wndAlertContainer,
-    strName = "HbA: HUD Alerts",
+    strName = kstrWindowManagementName,
     nSaveVersion = 1
   })
 end
@@ -38,7 +40,7 @@ function Hack:OnWindowManagementUpdate(tSettings)
   if tSettings and tSettings.wnd and tSettings.wnd == wndAlerts then
     local bMoveable = wndAlerts:IsStyleOn("Moveable")
     local bHasMoved = tSettings.bHasMoved
-    wndAlerts:SetSprite(bMoveable and "BasicSprites:WhiteFill" or "")
+    wndAlerts:SetSprite(bMoveable and "BK3:UI_BK3_Holo_Snippet" or "")
     wndAlerts:SetStyle("IgnoreMouse", not bMoveable)
   end
 end
