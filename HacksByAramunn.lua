@@ -61,7 +61,6 @@ function HacksByAramunn:OnRestore(eLevel, tSave)
       hackData.bEnabled = hackSave and hackSave.bEnabled or false
       hackData.tSave = hackSave and hackSave.tSave or hackData.tSave
     end
-    if hackData.bEnabled then hackData:Load() end
   end
 end
 
@@ -102,6 +101,7 @@ function HacksByAramunn:InitializeHack(hackData)
   end
   if bNeedsXmlDoc and not hackData.xmlDoc then return end
   table.insert(self.tHacks, hackData)
+  if hackData.bEnabled then hackData:Load() end
 end
 
 local HacksByAramunnInst = HacksByAramunn:new()
