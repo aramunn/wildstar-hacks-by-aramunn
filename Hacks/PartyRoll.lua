@@ -29,20 +29,23 @@ end
 
 function Hack:OnPartyRoll(strCmd, strParam)
   if not self.bIsLoaded then
-    --TODO
+    self.util:SysPrint("Party Roll was unloaded. Please reload it first.", self.strName)
+    return
   end
   if not GroupLib.InGroup() then
-    --TODO
+    self.util:SysPrint("You must be in a group to use this.", self.strName)
+    return
   end
   if self.bIsActive then
-    for strPlayer, nRoll in pairs(self.tRolls) do
-      Print(strPlayer..": "..tostring(nRoll))
-    end
+    self.util:SysPrint("In progress. Missing rolls from the following party members:", self.strName)
+    self.util:SysPrint("TODO", self.strName)
   elseif strParam == "" then
-    --TODO
+    self.util:SysPrint("Please specify what is being rolled for (/proll something).", self.strName)
+    return
   else
     self.strTitle = strParam:gsub("%s*$", "")
     self.tRolls = {}
+    self.channelParty:Send("[Party Roll] Begin rolling for "..self.strTitle)
     self.bIsActive = true
   end
 end
@@ -63,8 +66,15 @@ function Hack:RecordPlayerRoll(strPlayer, nRoll)
 end
 
 function Hack:CheckForCompleteness()
-  self.bIsActive = false
-  self:DisplayResults()
+  local idx = 0
+  while idx < GroupLib.GetMemberCount() do
+    idx = idx + 1
+    local tGroupMember = GroupLib.GetGroupMember(idx)
+    if not tGroupMember then break end
+    if not self.tRolls[tGroupMember.strCharacterName] then 
+    Print(idx..": "..tGroupMember.strCharacterName)
+    self.state.listItems.tiedRollers[tGroupMember.strCharacterName] = true
+  end
 end
 
 function Hack:DisplayResults()
