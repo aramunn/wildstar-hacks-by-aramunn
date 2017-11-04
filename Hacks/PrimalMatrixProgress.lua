@@ -49,7 +49,7 @@ function Hack:OnCheckProgress()
   wndMain:Destroy()
   for _,v in ipairs(karColors) do
     local fPercent = 100 * tCur[v] / tMax[v]
-    Print(string.format("%s: %.2f%% (%d/%d)", v, fPercent, tCur[v], tMax[v]))
+    Print(string.format("%s: %.2f%% (%d/%d)", v:sub(1,1), fPercent, tCur[v], tMax[v]))
   end
 end
 
