@@ -76,7 +76,7 @@ function Hack:FakeLootItem(tEssence)
       GetCharges                      = function() return nil end,
       GetChatLinkString               = function() return strName end,
       GetCostumeUnlockInfo            = function() return nil end,
-      GetDetailedInfo                 = function() return nil end,
+      GetDetailedInfo                 = function() return { tPrimary = {} } end,
       GetDurability                   = function() return nil end,
       GetDurationRemaining            = function() return nil end,
       GetDurationTotal                = function() return nil end,
