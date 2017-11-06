@@ -55,8 +55,8 @@ end
 function Hack:FakeLootItem(tEssence)
   local nS = tEssence.nSignature
   local nB = tEssence.nBonus
-  local strName = string.format("%s Essence (%d|%d|%d)", tEssence.strColor, tEssence.nTotal-nS-nB, nS, nB)
-  Print(strName)
+  local strName = string.format("%s Essence (%d%%)", tEssence.strColor, 100*tEssence.nTotal/(tEssence.nTotal-nB))
+  Print(tostring(tEssence.nTotal).." "..strName)
   Event_FireGenericEvent("ChannelUpdate_Loot", GameLib.ChannelUpdateLootType.Item, {
     nCount = tEssence.nTotal,
     itemNew = {
