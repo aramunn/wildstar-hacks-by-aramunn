@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<Forms>
+    <Form Class="Window" LAnchorPoint="0" LAnchorOffset="0" TAnchorPoint="0" TAnchorOffset="0" RAnchorPoint="1" RAnchorOffset="0" BAnchorPoint="1" BAnchorOffset="0" RelativeToClient="1" Font="Default" Text="" Template="Default" Name="MatrixForm" Border="0" Picture="1" SwallowMouseClicks="1" Moveable="0" Escapable="1" Overlapped="1" BGColor="black" TextColor="ffffffff" TextId="" TooltipColor="" Tooltip="" Visible="0" Sprite="BasicSprites:WhiteFill" InterruptControl="1">
+        <Control Class="MatrixWindow" LAnchorPoint="0" LAnchorOffset="0" TAnchorPoint="0" TAnchorOffset="0" RAnchorPoint="1" RAnchorOffset="0" BAnchorPoint="1" BAnchorOffset="0" RelativeToClient="1" Font="Default" Text="" BGColor="UI_AlphaPercent90" TextColor="UI_WindowTextDefault" Template="Default" TooltipType="OnCursor" Name="Window" TooltipColor="" NeverBringToFront="1" IgnoreMouse="1"/>
+    </Form>
+</Forms>
