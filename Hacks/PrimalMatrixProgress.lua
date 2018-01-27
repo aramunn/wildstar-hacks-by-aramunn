@@ -47,9 +47,14 @@ function Hack:OnCheckProgress()
   end
   wndMain:Close()
   wndMain:Destroy()
+  local arPercents = {}
   for _,v in ipairs(karColors) do
     local fPercent = 100 * tCur[v] / tMax[v]
-    Print(string.format("%s: %.2f%% (%d/%d)", v:sub(1,1), fPercent, tCur[v], tMax[v]))
+    table.insert(arPercents, string.format("%.2f%% %s", fPercent, v))
+  end
+  table.sort(arPercents)
+  for _,v in ipairs(arPercents) do
+    Print(v)
   end
 end
 
