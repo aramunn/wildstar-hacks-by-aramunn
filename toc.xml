@@ -1,4 +1,4 @@
-<Addon Author="Aramunn" APIVersion="14" Version="@project-version@" Name="HacksByAramunn" Description="Various hacks/fixes">
+<Addon Author="Aramunn" APIVersion="16" Version="@project-version@" Name="HacksByAramunn" Description="Various hacks/fixes">
     <Script Name="HacksByAramunn.lua"/>
     <Form Name="HacksByAramunn.xml"/>
     <Script Name="Hacks\FrameCountDeprecation.lua"/>
