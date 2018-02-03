@@ -2,6 +2,10 @@ local HacksByAramunn = {
   tHacks = {},
 }
 
+function HacksByAramunn:Print(strHack, strMsg)
+  ChatSystemLib.PostOnChannel(ChatSystemLib.ChatChannel_System, strMsg, "HbA ("..strHack..")")
+end
+
 function HacksByAramunn:RegisterHack(hackData)
   table.insert(self.tHacks, hackData)
 end
@@ -101,6 +105,7 @@ end
 
 function HacksByAramunn:InitializeHack(hackData)
   if not hackData:Initialize() then return end
+  hackData.Print = function(ref, strMsg) self:Print(hackData.strName, strMsg) end
   local bNeedsXmlDoc = hackData.strXmlDocName ~= nil
   if bNeedsXmlDoc then
     hackData.xmlDoc = XmlDoc.CreateFromFile("Hacks/"..hackData.strXmlDocName)

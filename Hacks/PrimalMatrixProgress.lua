@@ -11,14 +11,14 @@ function Hack:Initialize()
 end
 
 function Hack:Load()
-  Apollo.RegisterSlashCommand("pmp", "OnCheckProgress", self)
+  Apollo.RegisterSlashCommand("pmp", "OnSlashCommand", self)
 end
 
 function Hack:Unload()
-  self:PrintMessage("A Reload UI is required to remove the slash command")
+  self:Print("A Reload UI is required to remove the slash command")
 end
 
-function Hack:OnCheckProgress()
+function Hack:OnSlashCommand()
   local karColors = {
     "Red",
     "Green",
@@ -56,10 +56,6 @@ function Hack:OnCheckProgress()
   for _,v in ipairs(arPercents) do
     Print(v)
   end
-end
-
-function Hack:PrintMessage(strMessage)
-  ChatSystemLib.PostOnChannel(ChatSystemLib.ChatChannel_System, strMessage, "PMP")
 end
 
 function Hack:new(o)
