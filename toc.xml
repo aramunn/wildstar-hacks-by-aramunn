@@ -9,4 +9,5 @@
     <Script Name="Hacks\MovableHudAlerts.lua"/>
     <Script Name="Hacks\DisplayEssencesInLootStack.lua"/>
     <Script Name="Hacks\PrimalMatrixProgress.lua"/>
+    <Script Name="Hacks\QuickQueue.lua"/>
 </Addon>
