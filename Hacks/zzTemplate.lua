@@ -19,12 +19,11 @@ end
 
 function Hack:Load()
   -- Apollo.RegisterEventHandler("event", "func", self)
-  -- Apollo.RegisterSlashCommand("cmd", "OnSlashCommand", self)
+  -- self:AddSlashCmd("cmd", "OnSlashCommand", self)
 end
 
 function Hack:Unload()
   -- Apollo.RemoveEventHandler("event", self)
-  -- self:Print("A Reload UI is required to remove the slash command")
 end
 
 function Hack:new(o)

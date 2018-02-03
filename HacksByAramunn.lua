@@ -2,8 +2,8 @@ local HacksByAramunn = {
   tHacks = {},
 }
 
-function HacksByAramunn:Print(strHack, strMsg)
-  ChatSystemLib.PostOnChannel(ChatSystemLib.ChatChannel_System, strMsg, "HbA ("..strHack..")")
+function HacksByAramunn:Print(strMsg)
+  ChatSystemLib.PostOnChannel(ChatSystemLib.ChatChannel_System, strMsg, "HbA")
 end
 
 function HacksByAramunn:RegisterHack(hackData)
@@ -15,6 +15,9 @@ function HacksByAramunn:ChangeHackStatus(hackData, bShouldLoad)
     hackData:Load()
   elseif not bShouldLoad and hackData.bIsLoaded then
     hackData:Unload()
+    if hackData.bAddedSlashCmd then
+      self:Print("A Reload UI is required to remove the slash command")
+    end
   end
   hackData.bIsLoaded = bShouldLoad
 end
@@ -105,7 +108,12 @@ end
 
 function HacksByAramunn:InitializeHack(hackData)
   if not hackData:Initialize() then return end
-  hackData.Print = function(ref, strMsg) self:Print(hackData.strName, strMsg) end
+  hackData.Print = function(ref, strMsg) self:Print(strMsg) end
+  hackData.AddSlashCmd = function(ref, strCmd, strFunc)
+    if hackData.bAddedSlashCmd then return end
+    Apollo.RegisterSlashCommand(strCmd, strFunc, hackData)
+    hackData.bAddedSlashCmd = true
+  end
   local bNeedsXmlDoc = hackData.strXmlDocName ~= nil
   if bNeedsXmlDoc then
     hackData.xmlDoc = XmlDoc.CreateFromFile("Hacks/"..hackData.strXmlDocName)

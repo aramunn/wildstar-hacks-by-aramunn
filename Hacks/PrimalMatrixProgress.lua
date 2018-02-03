@@ -11,11 +11,10 @@ function Hack:Initialize()
 end
 
 function Hack:Load()
-  Apollo.RegisterSlashCommand("pmp", "OnSlashCommand", self)
+  self:AddSlashCmd("pmp", "OnSlashCommand", self)
 end
 
 function Hack:Unload()
-  self:Print("A Reload UI is required to remove the slash command")
 end
 
 function Hack:OnSlashCommand()
