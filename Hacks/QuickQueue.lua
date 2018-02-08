@@ -7,8 +7,14 @@ local Hack = {
 }
 
 function Hack:OnSlashCommand(strCmd, strParams)
-  Print("Got: "..strCmd)
-  Print("Got: "..strParams)
+  if not strParams then return end
+  local arParams = string.gmatch(strParams, "[^ ]+")
+  
+  
+  -- MatchMakingLib.Queue(
+    -- { MatchMakingLib.GetMatchMakingEntries(11, true, true)[7] },
+    -- { arRoles={1}, bFindOthers=false, bVeteran=false, nPrimeLevel=15 }
+  -- )
 end
 
 function Hack:Initialize()
