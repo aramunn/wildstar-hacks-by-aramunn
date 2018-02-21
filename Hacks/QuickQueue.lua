@@ -28,13 +28,27 @@ local ktInfo = {
     bVeteran = true,
     bHasLevels = true,
     tNames = {
+      ["Prime: Evil from the Ether"] = { "EftE" },
+      ["Prime: Outpost M-13"] = { "M13" },
+      ["Prime: Infestation"] = { "Infestation", "Inf" },
+      ["Prime: Deep Space Exploration"] = { "DSE" },
       ["Prime: Rage Logic"] = { "RL" },
-      ["Prime: Gauntlet"] = { "GLT" },
+      ["Prime: Gauntlet"] = { "Gauntlet", "Gaunt" },
+      ["Prime: Space Madness"] = { "SM" },
+      ["Prime: Fragment Zero"] = { "FZ" },
     }
   },
   [MatchMakingLib.MatchType.Dungeon] = {
     tNames = {
       ["Random Dungeon"] = { "Rnorm" },
+    }
+  },
+  [MatchMakingLib.MatchType.RatedBattleground] = {
+    tNames = {
+      ["Random"] = { "RBG" },
+      ["Walatiki Temple"] = { "Tiki" },
+      ["Daggerstone Pass"] = { "Daggerstone", "Dagger" },
+      ["Halls of the Bloodsworn: Reloaded"] = { "Halls" },
     }
   },
 }
@@ -96,13 +110,6 @@ function Hack:OnSlashCommand(strCmd, strParams)
   else
     MatchMakingLib.Queue({matchGame}, tOptions)
   end
-  
-  -- MatchMakingLib.Queue(
-    -- { MatchMakingLib.GetMatchMakingEntries(11, true, true)[7] },
-    -- { arRoles={1}, bFindOthers=false, bVeteran=false, nPrimeLevel=15 }
-  -- )
-  
-  --QueueAsGroup
 end
 
 function Hack:ParseParam(tParams, strParam)
