@@ -62,7 +62,11 @@ function Hack:OnSlashCommand(strCmd, strParams)
     self:ParseParam(tParams, strParam)
   end
   if not tParams.strName then
-    self:Print("TODO --help")
+    self:PrintHelp()
+    return
+  end
+  if string.lower(tParams.strName) == "names" then
+    self:PrintNames()
     return
   end
   local tInfo = tMap[string.lower(tParams.strName)]
@@ -98,13 +102,6 @@ function Hack:OnSlashCommand(strCmd, strParams)
     bVeteran = false,
     nPrimeLevel = tParams.nPrimeLevel or 0,
   }
-  Print(matchGame:GetInfo().strName)
-  for _, eRole in ipairs(tOptions.arRoles) do
-    Print(tostring(eRole))
-  end
-  Print("FindOthers: "..tostring(tOptions.bFindOthers))
-  Print("PrimeLevel: "..tostring(tOptions.nPrimeLevel))
-  Print("QueueGroup: "..tostring(bQueueAsGroup))
   if bQueueAsGroup then
     MatchMakingLib.QueueAsGroup({matchGame}, tOptions)
   else
@@ -147,6 +144,21 @@ end
 function Hack:FindMatchGame(tInfo)
   for _, matchGame in ipairs(MatchMakingLib.GetMatchMakingEntries(tInfo.eMatchType, tInfo.bVeteran, true)) do
     if matchGame:GetInfo().strName == tInfo.strLong then return matchGame end
+  end
+end
+
+function Hack:PrintHelp()
+  self:Print("/qq NAME [p#] [d|h|t] [g] [f]")
+  self:Print(" -p#: prime level")
+  self:Print(" -d|h|t: dps|heals|tank (include one or two)")
+  self:Print(" -g: queue as group")
+  self:Print(" -f: find others")
+  self:Print("use '/qq names' to see available names")
+end
+
+function Hack:PrintNames()
+  for strName, tInfo in pairs(tMap) do
+    self:Print(strName..": "..tInfo.strLong)
   end
 end
 
