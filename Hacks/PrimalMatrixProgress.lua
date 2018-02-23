@@ -53,7 +53,7 @@ function Hack:OnSlashCommand()
   end
   table.sort(arPercents)
   for _,v in ipairs(arPercents) do
-    Print(v)
+    self:Print(v)
   end
 end
 
