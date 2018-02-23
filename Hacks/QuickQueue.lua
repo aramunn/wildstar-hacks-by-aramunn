@@ -84,7 +84,7 @@ function Hack:OnSlashCommand(strCmd, strParams)
     self:Print("Specify one or more roles (d, h, or t)")
     return
   end
-  if tInfo.bHasLevels and not tParams.nPrime then
+  if tInfo.bHasLevels and not tParams.nPrimeLevel then
     self:Print("Specify prime level (p#)")
     return
   end
@@ -111,7 +111,7 @@ function Hack:OnSlashCommand(strCmd, strParams)
   local strInfo = "Queuing "..matchGame:GetInfo().strName
   strInfo = strInfo..(bQueueAsGroup and " grouped" or " solo").." as "
   for idx, eRole in ipairs(tOptions.arRoles) do
-    if idx > 1 then strInfo = strInfo.." and "
+    if idx > 1 then strInfo = strInfo.." and " end
     strInfo = strInfo..ktRoles[eRole]
   end
   if tOptions.bFindOthers then
@@ -135,7 +135,7 @@ function Hack:ParseParam(tParams, strParam)
   end
   local strPrime = string.match(strParam, "p([0-9]+)")
   if strPrime then
-    tParams.nPrime = tonumber(strPrime)
+    tParams.nPrimeLevel = tonumber(strPrime)
     return
   end
   if strParam == "g" then
