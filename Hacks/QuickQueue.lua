@@ -53,6 +53,12 @@ local ktInfo = {
   },
 }
 
+local ktRoles = {
+  [MatchMakingLib.Roles.DPS] = "DPS",
+  [MatchMakingLib.Roles.Healer] = "Heals",
+  [MatchMakingLib.Roles.Tank] = "Tank",
+}
+
 local tMap = {}
 
 function Hack:OnSlashCommand(strCmd, strParams)
@@ -102,6 +108,19 @@ function Hack:OnSlashCommand(strCmd, strParams)
     bVeteran = false,
     nPrimeLevel = tParams.nPrimeLevel or 0,
   }
+  local strInfo = "Queuing "..matchGame:GetInfo().strName
+  strInfo = strInfo..(bQueueAsGroup and " grouped" or " solo").." as "
+  for idx, eRole in ipairs(tOptions.arRoles) do
+    if idx > 1 then strInfo = strInfo.." and "
+    strInfo = strInfo..ktRoles[eRole]
+  end
+  if tOptions.bFindOthers then
+    strInfo = strInfo.." finding others"
+  end
+  if tOptions.nPrimeLevel > 0 then
+    strInfo = strInfo.." at P"..tostring(tOptions.nPrimeLevel)
+  end
+  self:Print(strInfo)
   if bQueueAsGroup then
     MatchMakingLib.QueueAsGroup({matchGame}, tOptions)
   else
