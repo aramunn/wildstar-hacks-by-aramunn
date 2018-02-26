@@ -1,3 +1,4 @@
+16.0: more hacks
 14.2: add go to page for AH
 14.1: add hide trackers in combat hack
 14.0: initial release
