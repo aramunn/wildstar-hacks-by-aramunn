@@ -25,6 +25,7 @@ local Hack = {
 
 local ktInfo = {
   [MatchMakingLib.MatchType.PrimeLevelExpedition] = {
+    strDescription = "Prime Expeditions",
     bVeteran = true,
     bHasLevels = true,
     tNames = {
@@ -39,11 +40,13 @@ local ktInfo = {
     }
   },
   [MatchMakingLib.MatchType.Dungeon] = {
+    strDescription = "Normal Dungeons",
     tNames = {
       ["Random Dungeon"] = { "Rnorm" },
     }
   },
   [MatchMakingLib.MatchType.RatedBattleground] = {
+    strDescription = "Battlegrounds",
     tNames = {
       ["Random"] = { "RBG" },
       ["Walatiki Temple"] = { "Tiki" },
@@ -172,12 +175,21 @@ function Hack:PrintHelp()
   self:Print(" -d|h|t: dps|heals|tank (include one or two)")
   self:Print(" -g: queue as group")
   self:Print(" -f: find others")
+  self:Print("e.g. /qq FZ p13 d h")
   self:Print("use '/qq names' to see available names")
 end
 
 function Hack:PrintNames()
-  for strName, tInfo in pairs(tMap) do
-    self:Print(strName..": "..tInfo.strLong)
+  for _, tInfo in pairs(ktInfo) do
+    self:Print(tInfo.strDescription..":")
+    for strLong, arShorts in pairs(tInfo.tNames) do
+      local strOpts = ""
+      for idx, strShort in ipairs(arShorts) do
+        if idx > 1 then strOpts = strOpts.."|" end
+        strOpts = strOpts..strShort
+      end
+      self:Print("  - "..strLong.." ("..strOpts..")")
+    end
   end
 end
 
